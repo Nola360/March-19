@@ -7,13 +7,6 @@ class Book {
   }
 }
 
-
-
-
-
-
-
-
 // UI: Handle UI Tasks
 class UI {
   static displayBooks() {
@@ -67,11 +60,10 @@ class UI {
     const container = document.querySelector('.container');
     const form = document.querySelector('#book-form');
     container.insertBefore(div, form);
+
+    // Vanish in 3 seconds
+    setTimeout(() => document.querySelector('.alert').remove(), 2000)
   }
-
-
-
-
 
   static clearFields() {
     document.querySelector('#title').value = '';
@@ -82,27 +74,7 @@ class UI {
 
 }
 
-
-
-
-
-
-
-
 // Store Class: Handles Storage
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -110,18 +82,6 @@ class UI {
 // Event Display Books
 
 document.addEventListener('DOMContentLoaded', UI.displayBooks);
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -141,45 +101,32 @@ document.querySelector('#book-form').addEventListener('submit', (e) => {
 
   // Form Validation
   if (title === '' || author === '' || isbn === '') {
-    alert('Please fill in fields');
+    UI.showAlert('All fields required!', 'danger');
   } else {
 
     // Instantiate a book
     const book = new Book(title, author, isbn);
+
+    // Add Book to UI
+    UI.addBookToList(book);
+
+
+    // Show success message
+    UI.showAlert('Book Added!', 'success');
+
+    // Clear fields
+    UI.clearFields()
+
   }
 
-
-
-
-  // Add Book to UI
-  UI.addBookToList(book);
-
-  // Clear fields
-  UI.clearFields()
-  console.log(book);
-
-
-
-
-
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 // Event: Remove a Book
 document.querySelector('#book-list').addEventListener('click', (e) => {
   UI.deleteBook(e.target);
+
+  // Show success message
+  UI.showAlert('Book Removed!', 'success');
 })
