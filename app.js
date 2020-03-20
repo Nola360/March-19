@@ -20,7 +20,7 @@ class UI {
     const StoredBooks = [{
       title: 'Book One',
       author: 'Jane Doe',
-      isbna: '3535535'
+      isbn: '353556'
     },
     {
       title: 'Book Two',
@@ -35,9 +35,11 @@ class UI {
 
   }
 
+
+
+  // Created Method
   static addBookToList(book) {
     const list = document.querySelector('#book-list');
-
     const row = document.createElement('tr');
 
     row.innerHTML =
@@ -50,6 +52,33 @@ class UI {
     list.appendChild(row);
   }
 
+  static deleteBook(el) {
+    if (el.classList.contains('delete')) {
+      el.parentElement.parentElement.remove();
+    }
+  }
+
+  static showAlert(message, className) {
+
+    const div = document.createElement('div');
+    div.className = `alert alert-${className}`;
+    div.appendChild(document.createTextNode(message))
+
+    const container = document.querySelector('.container');
+    const form = document.querySelector('#book-form');
+    container.insertBefore(div, form);
+  }
+
+
+
+
+
+  static clearFields() {
+    document.querySelector('#title').value = '';
+    document.querySelector('#author').value = '';
+    document.querySelector('#isbn').value = '';
+  }
+
 
 }
 
@@ -60,20 +89,97 @@ class UI {
 
 
 
-
-
-
-
-
-
-
-
-
 // Store Class: Handles Storage
 
-// Event Display
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Event Display Books
+
+document.addEventListener('DOMContentLoaded', UI.displayBooks);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Event: Add a Book
 
-// Event: Remove a Book
+document.querySelector('#book-form').addEventListener('submit', (e) => {
 
+  // Prevent default action
+  e.preventDefault()
+
+  // Get form Value
+  const title = document.querySelector('#title').value;
+  const author = document.querySelector('#author').value;
+  const isbn = document.querySelector('#isbn').value;
+
+
+  // Form Validation
+  if (title === '' || author === '' || isbn === '') {
+    alert('Please fill in fields');
+  } else {
+
+    // Instantiate a book
+    const book = new Book(title, author, isbn);
+  }
+
+
+
+
+  // Add Book to UI
+  UI.addBookToList(book);
+
+  // Clear fields
+  UI.clearFields()
+  console.log(book);
+
+
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Event: Remove a Book
+document.querySelector('#book-list').addEventListener('click', (e) => {
+  UI.deleteBook(e.target);
+})
